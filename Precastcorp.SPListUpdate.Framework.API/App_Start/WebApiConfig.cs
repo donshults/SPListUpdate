@@ -19,6 +19,11 @@ namespace Precastcorp.SPListUpdate.Framework.API
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+            config.Routes.MapHttpRoute(
+                name: "Calendar",
+                routeTemplate: "api/calendar/{id}",
+                defaults: new { id = RouteParameter.Optional }
+                );
         }
     }
 }

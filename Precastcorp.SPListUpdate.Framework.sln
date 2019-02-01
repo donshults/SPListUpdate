@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Precastcorp.SPListUpdate.Framework.API", "Precastcorp.SPListUpdate.Framework.API\Precastcorp.SPListUpdate.Framework.API.csproj", "{28228A77-2120-4B0A-87F1-F29D63F3E83C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrecastCorp.CalendarSupport.Service", "PrecastCorp.CalendarSupport.Service\PrecastCorp.CalendarSupport.Service.csproj", "{645F2B2F-9131-4782-B4F8-1D4D012DC339}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{28228A77-2120-4B0A-87F1-F29D63F3E83C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28228A77-2120-4B0A-87F1-F29D63F3E83C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28228A77-2120-4B0A-87F1-F29D63F3E83C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{645F2B2F-9131-4782-B4F8-1D4D012DC339}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{645F2B2F-9131-4782-B4F8-1D4D012DC339}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{645F2B2F-9131-4782-B4F8-1D4D012DC339}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{645F2B2F-9131-4782-B4F8-1D4D012DC339}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
