@@ -8,7 +8,7 @@ namespace PrecastCorp.CalendarSupport.Service.Models
 {
     public class CalendarItemModel
     {
-        public int ID { get; set; }
+        public int ID { get; set; } = 0;
         public string SiteUrl { get; set; }
         public string ListName { get; set; }
         public string Title { get; set; }
@@ -24,6 +24,6 @@ namespace PrecastCorp.CalendarSupport.Service.Models
         public string Description { get; set; }
         public string Url { get; set; }
         public string Category { get; set; }
-        public TimeZoneInfo LocalTZ { get; set; }
+        //public TimeZoneInfo LocalTZ { get; set; }
     }
 }

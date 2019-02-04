@@ -1,4 +1,5 @@
-﻿using PrecastCorp.CalendarSupport.Service.Entities;
+﻿using PrecastCorp.CalendarSupport.Service;
+using PrecastCorp.CalendarSupport.Service.Entities;
 using PrecastCorp.CalendarSupport.Service.Models;
 using System;
 using System.Collections.Generic;
@@ -12,10 +13,12 @@ namespace Precastcorp.SPListUpdate.Framework.API.Models
     public class ModelFactory
     {
         private UrlHelper _urlHelper;
+        private ICalendarSupport calendarSupport;
 
-        public ModelFactory(HttpRequestMessage request)
+        public ModelFactory(HttpRequestMessage request, ICalendarSupport repo)
         {
             _urlHelper = new UrlHelper(request);
+            calendarSupport = repo;
         }
 
         public CalendarItemModel Create(CalendarItem calendarItem)
@@ -23,7 +26,7 @@ namespace Precastcorp.SPListUpdate.Framework.API.Models
             return new CalendarItemModel
             {
                 Url = _urlHelper.Link("Calendar", new { siteUrl = calendarItem.SiteUrl, listName = calendarItem.ListName, id = calendarItem.ID }),
-                ID = calendarItem.ID,
+                //ID = calendarItem.ID,
                 Title = calendarItem.Title,
                 Description = calendarItem.Description,
                 EventDate = ConvertToLocalTime(calendarItem.EventDate, calendarItem.LocalTZ),
@@ -37,7 +40,7 @@ namespace Precastcorp.SPListUpdate.Framework.API.Models
                 SiteUrl = calendarItem.SiteUrl,
                 ListName = calendarItem.ListName,
                 Category = calendarItem.Category,
-                LocalTZ = calendarItem.LocalTZ
+                //LocalTZ = calendarItem.LocalTZ
 
             };
         }
@@ -77,7 +80,7 @@ namespace Precastcorp.SPListUpdate.Framework.API.Models
             entry.Editor = new UserModel();
             try
             {
-                entry.ID = calEntry.ID;
+                //entry.ID = calEntry.ID;
                 entry.Author.LookupId = calEntry.Author.LookupId;
                 entry.Description = calEntry.Description;
                 entry.Editor.LookupId = calEntry.Editor.LookupId;
@@ -90,7 +93,7 @@ namespace Precastcorp.SPListUpdate.Framework.API.Models
                 entry.SiteUrl = calEntry.SiteUrl;
                 entry.ListName = calEntry.ListName;
                 entry.Category = calEntry.Category;
-                entry.LocalTZ = calEntry.LocalTZ;
+                //entry.LocalTZ = calEntry.LocalTZ;
                 return entry;
             }
             catch (Exception ex)

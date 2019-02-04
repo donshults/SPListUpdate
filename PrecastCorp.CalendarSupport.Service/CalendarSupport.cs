@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Microsoft.SharePoint.Client;
 using Newtonsoft.Json;
 using PrecastCorp.CalendarSupport.Service.Entities;
+using PrecastCorp.CalendarSupport.Service.Models;
 
 namespace PrecastCorp.CalendarSupport.Service
 {
@@ -30,12 +31,67 @@ namespace PrecastCorp.CalendarSupport.Service
 
         public CalendarItem AddCalendarItem(CalendarItem calItem)
         {
-            throw new NotImplementedException();
+            string realm = ConfigurationManager.AppSettings["ida:Audience"];
+            string appId = ConfigurationManager.AppSettings["ida:ClientId"];
+            string appSecret = ConfigurationManager.AppSettings["ida:ClientSecret"];
+            OfficeDevPnP.Core.AuthenticationManager authManager = new OfficeDevPnP.Core.AuthenticationManager();
+            var siteUrl = calItem.SiteUrl;
+            var listName = calItem.ListName;
+            if (listName == null || siteUrl == null)
+            {
+                return null;
+            }
+            using (ClientContext context = authManager.GetAppOnlyAuthenticatedContext(siteUrl, appId, appSecret))
+            {
+                try
+                {
+                    List oList = context.Web.Lists.GetByTitle(listName);
+                    ListItemCreationInformation oItemCreateInfo = new ListItemCreationInformation();
+                    ListItem oItem = oList.AddItem(oItemCreateInfo);
+                    oItem["Description"] = calItem.Description;
+                    oItem["Location"] = calItem.Location;
+                    oItem["EventDate"] = calItem.EventDate;
+                    oItem["EndDate"] = calItem.EndDate;
+                    oItem["Title"] = calItem.Title;
+                    oItem.Update();
+                    context.ExecuteQuery();
+                    calItem.ID = oItem.Id;
+                    return calItem;
+                }
+                catch (Exception ex)
+                {
+
+                    return null;
+
+                }
+            }
+
         }
 
         public bool DeleteCalendarItemById(string siteUrl, string listName, int itemId)
         {
-            throw new NotImplementedException();
+            string realm = ConfigurationManager.AppSettings["ida:Audience"];
+            string appId = ConfigurationManager.AppSettings["ida:ClientId"];
+            string appSecret = ConfigurationManager.AppSettings["ida:ClientSecret"];
+            bool success = false;
+
+            OfficeDevPnP.Core.AuthenticationManager authManager = new OfficeDevPnP.Core.AuthenticationManager();
+            using (ClientContext context = authManager.GetAppOnlyAuthenticatedContext(siteUrl, appId, appSecret))
+            {
+                try
+                {
+                    List oList = context.Web.Lists.GetByTitle(listName);
+                    ListItem oItem = oList.GetItemById(itemId);
+                    oItem.DeleteObject();
+                    context.ExecuteQuery();
+                    success = true;
+                    return success;
+                }
+                catch (Exception ex)
+                {
+                    return success;
+                }
+            }
         }
 
         public Task<string> GetAccessTokenAsync()
@@ -43,9 +99,54 @@ namespace PrecastCorp.CalendarSupport.Service
             throw new NotImplementedException();
         }
 
-        public CalendarItem GetCalendarItemById(string siteUrl, string listName, int itemId, string timeZoneId)
+        public CalendarItem GetCalendarItemById(string siteUrl, string listName, int itemId)
         {
-            throw new NotImplementedException();
+            string realm = ConfigurationManager.AppSettings["ida:Audience"];
+            string appId = ConfigurationManager.AppSettings["ida:ClientId"];
+            string appSecret = ConfigurationManager.AppSettings["ida:ClientSecret"];
+            CalendarItem calItem = new CalendarItem();
+
+            OfficeDevPnP.Core.AuthenticationManager authManager = new OfficeDevPnP.Core.AuthenticationManager();
+            using (ClientContext context = authManager.GetAppOnlyAuthenticatedContext(siteUrl, appId, appSecret))
+            {
+                try
+                {
+                    List oList = context.Web.Lists.GetByTitle(listName);
+                    ListItem oItem = oList.GetItemById(itemId);
+                    context.Load(oItem);
+                    context.ExecuteQuery();
+
+                    calItem.Title = oItem["Title"].ToString();
+                    calItem.ID = oItem.Id;
+                    calItem.Description = oItem["Description"].ToString();
+                    calItem.Created = DateTime.Parse(oItem["Created"].ToString());
+                    calItem.EndDate = DateTime.Parse(oItem["EndDate"].ToString());
+                    calItem.EventDate = DateTime.Parse(oItem["EventDate"].ToString());
+                    calItem.FileDirRef = oItem["FileDirRef"].ToString();
+                    calItem.FileRef = oItem["FileRef"].ToString();
+                    calItem.Location = oItem["Location"].ToString();
+                    calItem.Modified = DateTime.Parse(oItem["Modified"].ToString());
+                    FieldUserValue itemAuthor = oItem["Author"] as FieldUserValue;
+                    var author = new Models.UserModel();
+                    author.Email = itemAuthor.Email;
+                    author.LookupId = itemAuthor.LookupId;
+                    author.LookupValue = itemAuthor.LookupValue;
+                    calItem.Author = author;
+                    FieldUserValue itemEditor = oItem["Editor"] as FieldUserValue;
+                    var editor = new Models.UserModel();
+                    editor.Email = itemEditor.Email;
+                    editor.LookupId = itemEditor.LookupId;
+                    editor.LookupValue = itemEditor.LookupValue;
+                    calItem.Editor = editor;
+                    calItem.SiteUrl = siteUrl;
+                    calItem.ListName = listName;
+                    return calItem;
+                }
+                catch (Exception ex)
+                {
+                    return null;
+                }
+            }
         }
 
         public IEnumerable<CalendarItem> GetCalendarItems(string siteUrl, string listName, string timeZoneId)
@@ -173,7 +274,42 @@ namespace PrecastCorp.CalendarSupport.Service
 
         public CalendarItem UpdateCalendarItem(CalendarItem calItem)
         {
-            throw new NotImplementedException();
+            string realm = ConfigurationManager.AppSettings["ida:Audience"];
+            string appId = ConfigurationManager.AppSettings["ida:ClientId"];
+            string appSecret = ConfigurationManager.AppSettings["ida:ClientSecret"];
+            OfficeDevPnP.Core.AuthenticationManager authManager = new OfficeDevPnP.Core.AuthenticationManager();
+            if (calItem.SiteUrl == null || calItem.ListName == null)
+            {
+                return null;
+            }
+            var listName = calItem.ListName;
+            var siteUrl = calItem.SiteUrl;
+
+            using (ClientContext context = authManager.GetAppOnlyAuthenticatedContext(siteUrl, appId, appSecret))
+            {
+                try
+                {
+                    List oList = context.Web.Lists.GetByTitle(listName);
+                    ListItemCreationInformation oItemCreateInfo = new ListItemCreationInformation();
+                    ListItem oItem = oList.GetItemById(calItem.ID);
+
+                    oItem["Description"] = calItem.Description;
+                    oItem["Location"] = calItem.Location;
+                    oItem["EventDate"] = calItem.EventDate;
+                    oItem["EndDate"] = calItem.EndDate;
+                    oItem["Title"] = calItem.Title;
+                    oItem["Author"] = calItem.Author;
+                    oItem["Editor"] = calItem.Editor;
+                    oItem.Update();
+                    context.ExecuteQuery();
+                    return calItem;
+                }
+                catch (Exception)
+                {
+                    return null;
+
+                }
+            }
         }
 
 

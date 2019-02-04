@@ -16,7 +16,7 @@ namespace Precastcorp.SPListUpdate.Framework.API.Controllers
 
         public BaseApiController()
         {
-            calendarSupport = new CalendarSupport();   
+   
         }
 
         protected ModelFactory TheModelFactory
@@ -25,7 +25,7 @@ namespace Precastcorp.SPListUpdate.Framework.API.Controllers
             {
                 if (modelFactory == null)
                 {
-                    modelFactory = new ModelFactory(this.Request);
+                    modelFactory = new ModelFactory(this.Request, TheCalendarSupport);
                 }
                 return modelFactory;
             }
@@ -35,6 +35,10 @@ namespace Precastcorp.SPListUpdate.Framework.API.Controllers
         {
             get
             {
+                if(calendarSupport == null)
+                {
+                    calendarSupport = new CalendarSupport();
+                }
                 return calendarSupport;
             }
         }
