@@ -149,10 +149,9 @@ namespace PrecastCorp.CalendarSupport.Service
             }
         }
 
-        public IEnumerable<CalendarItem> GetCalendarItems(string siteUrl, string listName, string timeZoneId)
+        public IEnumerable<CalendarItem> GetCalendarItems(string siteUrl, string listName)
         {
             List<CalendarItem> calItems = new List<CalendarItem>();
-            string _timeZoneId = timeZoneId;
 
             DateTime todayDate = DateTime.Now;
             string todayString = todayDate.ToString("yyyy-MM-ddTHH:mm:ssZ");
@@ -172,7 +171,6 @@ namespace PrecastCorp.CalendarSupport.Service
                         ListItemCollection listItems = oList.GetItems(camlQuery);
                         context.Load(listItems);
                         context.ExecuteQuery();
-                        TimeZoneInfo tzi = TimeZoneInfo.FindSystemTimeZoneById(_timeZoneId);
                         foreach (ListItem oListItem in listItems)
                         {
                             var fields = oListItem.FieldValues;
@@ -231,7 +229,6 @@ namespace PrecastCorp.CalendarSupport.Service
                             }
                             calItem.ListName = listName;
                             calItem.SiteUrl = siteUrl;
-                            calItem.LocalTZ = tzi;
                             calItems.Add(calItem);
                         }
                         return calItems;

@@ -8,32 +8,31 @@ using System.Net.Http;
 using System.Web.Http;
 using Microsoft.Extensions.Configuration;
 using PrecastCorp.CalendarSupport.Service.Models;
+using PrecastCorp.CalendarSupport.Service.Entities;
 
 namespace Precastcorp.SPListUpdate.Framework.API.Controllers
 {
     [Authorize]
-    [Route("api/calendar")]
     public class CalendarController : BaseApiController
     {
-
         public CalendarController() : base()
         {
 
         }
-        //[HttpGet]
+
+        [HttpGet]
         [Route("api/calendar/timezones")]
         public HttpResponseMessage GetTimeZones()
         {
             var results = TheCalendarSupport.GetTimeZoneInfo();
             return Request.CreateResponse(HttpStatusCode.OK, results);
         }
-        
-        [HttpGet]
+
         [Route("api/calendar")]
-        public HttpResponseMessage Get(string localTimeZone, string listName, string siteUrl)
+        public HttpResponseMessage Get(string listName, string siteUrl)
         {
-                     
-            var results = TheCalendarSupport.GetCalendarItems(siteUrl, listName, localTimeZone);
+            List<CalendarItem> results = new List<CalendarItem>();
+            results = TheCalendarSupport.GetCalendarItems(siteUrl, listName).ToList();
 
             if (results != null)
             {
@@ -46,7 +45,21 @@ namespace Precastcorp.SPListUpdate.Framework.API.Controllers
             }
         }
 
-        [HttpPost]
+        [Route("api/calendar/{id}")]
+        public HttpResponseMessage Get(int id, string listName, string siteUrl)
+        {
+            CalendarItem result = new CalendarItem();
+            result = TheCalendarSupport.GetCalendarItemById(siteUrl, listName, id);
+            if (result != null)
+            {               
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            else
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Can't find calendar list");
+            }
+        }
+
         [Route("api/calendar")]
         public HttpResponseMessage Post([FromBody] CalendarItemModel model)
         {
@@ -75,7 +88,7 @@ namespace Precastcorp.SPListUpdate.Framework.API.Controllers
             }
         }
 
-        
+        [Route("api/calendar")]
         public HttpResponseMessage Delete([FromBody] CalendarItemModel model)
         {
             try
@@ -104,7 +117,7 @@ namespace Precastcorp.SPListUpdate.Framework.API.Controllers
             }
 
         }
-        
+        [Route("api/calendar")]
         public HttpResponseMessage Put([FromBody] CalendarItemModel model)
         {
             try

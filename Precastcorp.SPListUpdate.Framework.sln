@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Precastcorp.SPListUpdate.Fr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrecastCorp.CalendarSupport.Service", "PrecastCorp.CalendarSupport.Service\PrecastCorp.CalendarSupport.Service.csproj", "{645F2B2F-9131-4782-B4F8-1D4D012DC339}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrecastCorp.SPListUpdate.DemoConsole", "PrecastCorp.SPListUpdate.DemoConsole\PrecastCorp.SPListUpdate.DemoConsole.csproj", "{38001F68-4467-4BE4-96AA-B5EBBBF83876}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{645F2B2F-9131-4782-B4F8-1D4D012DC339}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{645F2B2F-9131-4782-B4F8-1D4D012DC339}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{645F2B2F-9131-4782-B4F8-1D4D012DC339}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38001F68-4467-4BE4-96AA-B5EBBBF83876}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38001F68-4467-4BE4-96AA-B5EBBBF83876}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38001F68-4467-4BE4-96AA-B5EBBBF83876}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38001F68-4467-4BE4-96AA-B5EBBBF83876}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
