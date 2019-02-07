@@ -15,9 +15,11 @@ namespace Precastcorp.SPListUpdate.Framework.API.Controllers
     [Authorize]
     public class CalendarController : BaseApiController
     {
+        public ICalendarSupport CalendarSupport { get; }
+
         public CalendarController() : base()
         {
-
+          
         }
 
         [HttpGet]

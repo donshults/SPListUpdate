@@ -11,12 +11,12 @@ namespace Precastcorp.SPListUpdate.Framework.API.Controllers
 {
     public abstract class BaseApiController : ApiController
     {
-        private CalendarSupport calendarSupport;
+        private ICalendarSupport calendarSupport;
         private ModelFactory modelFactory;
 
         public BaseApiController()
         {
-   
+          
         }
 
         protected ModelFactory TheModelFactory
@@ -31,7 +31,7 @@ namespace Precastcorp.SPListUpdate.Framework.API.Controllers
             }
         }
 
-        protected CalendarSupport TheCalendarSupport
+        protected ICalendarSupport TheCalendarSupport
         {
             get
             {

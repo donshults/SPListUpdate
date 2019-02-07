@@ -80,25 +80,29 @@ namespace Precastcorp.SPListUpdate.Framework.API.Models
             entry.Editor = new UserModel();
             try
             {
-                //entry.ID = calEntry.ID;
-                entry.Author.LookupId = calEntry.Author.LookupId;
+                entry.ID = calEntry.ID;
+                if (calEntry.Author != null)
+                {
+                    //entry.Author.LookupId = calEntry.Author.LookupId;
+                    entry.Author = calEntry.Author;
+                }
                 entry.Description = calEntry.Description;
-                entry.Editor.LookupId = calEntry.Editor.LookupId;
+                if(calEntry.Editor != null)
+                {
+                    //entry.Editor.LookupId = calEntry.Editor.LookupId;
+                    entry.Editor = calEntry.Editor;
+                }
                 entry.EndDate = TimeZoneInfo.ConvertTimeToUtc(calEntry.EndDate);
                 entry.EventDate = TimeZoneInfo.ConvertTimeToUtc(calEntry.EventDate);
                 entry.Location = calEntry.Location;
                 entry.Title = calEntry.Title;
-                entry.Author = calEntry.Author;
-                entry.Editor = calEntry.Editor;
+                entry.Category = calEntry.Category;    
                 entry.SiteUrl = calEntry.SiteUrl;
                 entry.ListName = calEntry.ListName;
-                entry.Category = calEntry.Category;
-                //entry.LocalTZ = calEntry.LocalTZ;
                 return entry;
             }
             catch (Exception ex)
             {
-
                 return null;
             }
         }
