@@ -53,6 +53,7 @@ namespace PrecastCorp.CalendarSupport.Service
                     oItem["EventDate"] = calItem.EventDate;
                     oItem["EndDate"] = calItem.EndDate;
                     oItem["Title"] = calItem.Title;
+                    oItem["Category"] = calItem.Category;
                     oItem.Update();
                     context.ExecuteQuery();
                     calItem.ID = oItem.Id;
@@ -140,6 +141,7 @@ namespace PrecastCorp.CalendarSupport.Service
                     calItem.Editor = editor;
                     calItem.SiteUrl = siteUrl;
                     calItem.ListName = listName;
+                    //calItem.Category = oItem["Category"];
                     return calItem;
                 }
                 catch (Exception ex)
